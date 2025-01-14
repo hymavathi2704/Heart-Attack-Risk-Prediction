@@ -18,7 +18,7 @@ st.set_page_config(
 st.title("Heart Disease Risk - Prediction App")
 
 # Open the image using PIL
-img = Image.open(r"C:\Users\Hyma vathi\Desktop\My App 2\logo.png")
+img = Image.open(r"logo.png")
 
 # Resize the image using PIL
 img = img.resize((600, 600))  # Set the desired width and height here

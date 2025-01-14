@@ -129,6 +129,10 @@ def user_input_features():
     }
     return pd.DataFrame(data, index=[0])
 
+# Gather user inputs
+input_df = user_input_features()
+
+
 # Main Page
 st.header('What is Heart Attack?')
 st.video('https://youtu.be/bw_Vv2WRG-A')

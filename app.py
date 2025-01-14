@@ -129,12 +129,11 @@ def user_input_features():
     }
     return pd.DataFrame(data, index=[0])
 
-# Gather user inputs
-input_df = user_input_features()
+# Main Page
+st.header('What is Heart Attack?')
+st.video('https://youtu.be/bw_Vv2WRG-A')
 
-# Display user inputs
-st.write("### User Input Features Which You Entered Can Be Seen Here")
-st.write(input_df)
+
 
 # Check if the model exists, and if not, train and save it
 model_filename = 'Logistic_regression_model.joblib'

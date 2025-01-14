@@ -18,7 +18,7 @@ st.set_page_config(
 st.title("Heart Disease Risk - Prediction App")
 
 # Open the image using PIL
-img = Image.open(r"logo.png")
+img = Image.open(r"C:\Users\Hyma vathi\Desktop\My App 2\logo.png")
 
 # Resize the image using PIL
 img = img.resize((600, 600))  # Set the desired width and height here
@@ -35,19 +35,82 @@ This app predicts whether a patient has heart disease based on user inputs.
 st.sidebar.header("Enter User Input Features Here : ")
 
 def user_input_features():
+    import streamlit as st
+
     age = st.sidebar.number_input('Age:', min_value=0, max_value=120, value=30)
-    sex = st.sidebar.selectbox('Sex (0: Female, 1: Male):', options=[0, 1])
-    cp = st.sidebar.selectbox('Chest Pain Type (0-3):', options=[0, 1, 2, 3])
+    
+    sex = st.sidebar.selectbox(
+        'Sex:',
+        options=[0, 1],
+        format_func=lambda x: "Female" if x == 0 else "Male"
+    )
+    
+    cp = st.sidebar.selectbox(
+        'Chest Pain Type:',
+        options=[0, 1, 2, 3],
+        format_func=lambda x: {
+            0: "Typical Angina",
+            1: "Atypical Angina",
+            2: "Non-Anginal Pain",
+            3: "Asymptomatic"
+        }[x]
+    )
+    
     trtbps = st.sidebar.number_input('Resting Blood Pressure (mmHg):', min_value=80, max_value=200, value=120)
     chol = st.sidebar.number_input('Serum Cholesterol (mg/dL):', min_value=100, max_value=600, value=200)
-    fbs = st.sidebar.selectbox('Fasting Blood Sugar > 120 mg/dL (1: Yes, 0: No):', options=[0, 1])
-    restecg = st.sidebar.selectbox('Resting ECG Results (0-2):', options=[0, 1, 2])
+    
+    fbs = st.sidebar.selectbox(
+        'Fasting Blood Sugar > 120 mg/dL:',
+        options=[0, 1],
+        format_func=lambda x: "No" if x == 0 else "Yes"
+    )
+    
+    restecg = st.sidebar.selectbox(
+        'Resting ECG Results:',
+        options=[0, 1, 2],
+        format_func=lambda x: {
+            0: "Normal",
+            1: "Having ST-T Wave Abnormality",
+            2: "Showing Probable/Definite Left Ventricular Hypertrophy"
+        }[x]
+    )
+    
     thalachh = st.sidebar.number_input('Max Heart Rate Achieved:', min_value=50, max_value=250, value=150)
-    exng = st.sidebar.selectbox('Exercise-Induced Angina (1: Yes, 0: No):', options=[0, 1])
+    
+    exng = st.sidebar.selectbox(
+        'Exercise-Induced Angina:',
+        options=[0, 1],
+        format_func=lambda x: "No" if x == 0 else "Yes"
+    )
+    
     oldpeak = st.sidebar.number_input('ST Depression:', min_value=0.0, max_value=10.0, value=1.0, step=0.1)
-    slp = st.sidebar.selectbox('Slope of ST Segment (0-2):', options=[0, 1, 2])
-    caa = st.sidebar.selectbox('Number of Major Vessels (0-3):', options=[0, 1, 2, 3])
-    thal = st.sidebar.selectbox('Thalassemia (0: Normal, 1: Fixed Defect, 2: Reversible Defect):', options=[0, 1, 2])
+    
+    slp = st.sidebar.selectbox(
+        'Slope of ST Segment:',
+        options=[0, 1, 2],
+        format_func=lambda x: {
+            0: "Upsloping",
+            1: "Flat",
+            2: "Downsloping"
+        }[x]
+    )
+    
+    caa = st.sidebar.selectbox(
+        'Number of Major Vessels:',
+        options=[0, 1, 2, 3],
+        format_func=lambda x: f"{x} Major Vessel(s)"
+    )
+    
+    thal = st.sidebar.selectbox(
+        'Thalassemia:',
+        options=[0, 1, 2],
+        format_func=lambda x: {
+            0: "Normal",
+            1: "Fixed Defect",
+            2: "Reversible Defect"
+        }[x]
+    )
+
     
     data = {
         'age': age,
@@ -106,16 +169,24 @@ except FileNotFoundError:
     st.text("Classification Report:")
     st.text(classification_report(y_test, y_pred))
 
-# Apply the model to make predictions
 if model:
     prediction = model.predict(input_df)
     prediction_proba = model.predict_proba(input_df)
 
     st.subheader("Prediction")
-    st.success("You Have High Chance Of Getting Heart Attack" if prediction[0] == 1 else "You Have Low Chance Of Getting Heart Attack")
+    st.success(
+        "You Have High Chance Of Getting Heart Attack"
+        if prediction[0] == 1
+        else "You Have Low Chance Of Getting Heart Attack"
+    )
 
     st.subheader("Prediction Probability")
-    st.write(prediction_proba)
+    # Create a labeled DataFrame for better readability
+    prob_df = pd.DataFrame(
+        prediction_proba,
+        columns=["Prob of Not Getting Heart Attack", "Prob of Getting Heart Attack"]
+    )
+    st.write(prob_df)
 
 
 # Footer

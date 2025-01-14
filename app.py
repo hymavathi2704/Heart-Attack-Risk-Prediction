@@ -133,7 +133,7 @@ def user_input_features():
 input_df = user_input_features()
 
 # Display user inputs
-st.write("### User Input Features Which You Entered Can Be Seen Here : ")
+st.write("### User Input Features Which You Entered Can Be Seen Here")
 st.write(input_df)
 
 # Check if the model exists, and if not, train and save it

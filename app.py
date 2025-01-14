@@ -4,16 +4,35 @@ from sklearn.model_selection import train_test_split
 from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, classification_report
 import joblib
+from PIL import Image
 
-st.title("Heart Disease Prediction App")
+# Set up page configuration
+st.set_page_config(
+    page_title="Heart Attack Risk Prediction",
+    page_icon="⚕️",
+    layout="centered",
+    initial_sidebar_state="expanded",
+)
+
+
+st.title("Heart Disease Risk - Prediction App")
+
+# Open the image using PIL
+img = Image.open(r"C:\Users\Hyma vathi\Desktop\My App 2\logo.png")
+
+# Resize the image using PIL
+img = img.resize((600, 600))  # Set the desired width and height here
+
+# Display the resized image in Streamlit
+st.image(img)
+
 
 st.write("""
 This app predicts whether a patient has heart disease based on user inputs.
-Data Source: [Kaggle Dataset](https://www.kaggle.com/datasets/johnsmith88/heart-disease-dataset).
 """)
 
 # Sidebar for user inputs
-st.sidebar.header("User Input Features")
+st.sidebar.header("Enter User Input Features Here : ")
 
 def user_input_features():
     age = st.sidebar.number_input('Age:', min_value=0, max_value=120, value=30)
@@ -51,7 +70,7 @@ def user_input_features():
 input_df = user_input_features()
 
 # Display user inputs
-st.write("### User Input Features")
+st.write("### User Input Features Which You Entered Can Be Seen Here : ")
 st.write(input_df)
 
 # Check if the model exists, and if not, train and save it
@@ -60,7 +79,7 @@ model_filename = 'Logistic_regression_model.joblib'
 try:
     # Try to load the pre-trained model
     model = joblib.load(model_filename)
-    st.success("Model loaded successfully.")
+    st.write("Check Your Result Below : ")
 except FileNotFoundError:
     st.warning("Model not found! Training a new model...")
 
@@ -93,7 +112,18 @@ if model:
     prediction_proba = model.predict_proba(input_df)
 
     st.subheader("Prediction")
-    st.write("You Have High Chance Of Getting Heart Attack" if prediction[0] == 1 else "You Have Low Chance Of Getting Heart Attack")
+    st.success("You Have High Chance Of Getting Heart Attack" if prediction[0] == 1 else "You Have Low Chance Of Getting Heart Attack")
 
     st.subheader("Prediction Probability")
     st.write(prediction_proba)
+
+
+# Footer
+st.markdown(
+    """
+    <br><br>
+    <footer style="text-align: center; font-size: 14px; color: gray;">
+        Created with ❤️ by Hymavathi and The Team | <a href="https://www.kaggle.com/datasets/johnsmith88/heart-disease-dataset" target="_blank">Dataset Source</a>
+    </footer>
+    """, unsafe_allow_html=True
+)

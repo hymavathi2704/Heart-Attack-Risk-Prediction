@@ -31,6 +31,8 @@ st.write("""
 This app predicts whether a patient has heart disease based on user inputs.
 """)
 
+st.write("""This project is to create a model that able to make a prediction of heart attack possibilities in a patient. I have deployed an app using Streamlit platform. This project used Logistic Regression classification model of Machine Learning (ML) to predict the required results.""")
+
 # Sidebar for user inputs
 st.sidebar.header("Enter User Input Features Here : ")
 

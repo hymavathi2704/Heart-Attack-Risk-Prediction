@@ -21,7 +21,7 @@ st.title("Heart Disease Risk - Prediction App")
 img = Image.open(r"ps.png")
 
 # Resize the image using PIL
-img = img.resize((600, 600))  # Set the desired width and height here
+img = img.resize((800, 600))  # Set the desired width and height here
 
 # Display the resized image in Streamlit
 st.image(img)

@@ -18,7 +18,7 @@ st.set_page_config(
 st.title("Heart Disease Risk - Prediction App")
 
 # Open the image using PIL
-img = Image.open(r"logo.png")
+img = Image.open(r"ps.png")
 
 # Resize the image using PIL
 img = img.resize((600, 600))  # Set the desired width and height here
